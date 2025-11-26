@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Cellbyte Agentic Data Analyst
+Agentic Data Analyst
 
 An AI-powered data analyst that answers natural language questions about CSV data.
 

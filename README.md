@@ -27,8 +27,8 @@ python main.py data/
 
 ```bash
 # Set your API key
-export OPEN_AI_API_KEY=your-key-here  # Linux/Mac
-# $env:OPEN_AI_API_KEY="your-key-here"  # Windows PowerShell
+export OPEN_AI_API_KEY=your-key-here      # Linux/Mac
+$env:OPEN_AI_API_KEY="your-key-here"      # Windows PowerShell
 
 # Run interactive
 docker-compose run --rm analyst

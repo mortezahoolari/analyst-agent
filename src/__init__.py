@@ -1,1 +1,1 @@
-# Cellbyte Agentic Data Analyst
+# Agentic Data Analyst

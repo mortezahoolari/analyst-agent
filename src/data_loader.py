@@ -44,6 +44,7 @@ class DataLoader:
     def load_csv(self, path: Path, name: Optional[str] = None) -> DatasetInfo:
         """Load a CSV file and extract its schema."""
         name = name or path.stem
+        df = None
 
         # Try different separators
         for sep in [",", ";", "\t"]:
@@ -53,6 +54,9 @@ class DataLoader:
                     break
             except Exception:
                 continue
+
+        if df is None:
+            raise ValueError(f"Could not load CSV file: {path}")
 
         self.datasets[name] = df
 

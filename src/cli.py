@@ -25,7 +25,7 @@ class CLI:
     def display_welcome(self) -> None:
         """Display welcome message and loaded datasets."""
         self.console.print(Panel.fit(
-            "[bold blue]Cellbyte Agentic Data Analyst[/bold blue]\n"
+            "[bold blue]Agentic Data Analyst[/bold blue]\n"
             "Ask questions about your data in natural language.",
             border_style="blue"
         ))
