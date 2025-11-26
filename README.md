@@ -36,6 +36,31 @@ docker-compose run --rm analyst
 
 ---
 
+## Using Your Own Data
+
+The system is **data-agnostic** - it works with any CSV files:
+
+```bash
+# Option 1: Replace files in data/ folder
+cp your_data.csv data/
+python main.py data/
+
+# Option 2: Specify custom path
+python main.py /path/to/your/csvs/
+
+# Option 3: Docker (put CSVs in data/ folder)
+docker-compose run --rm analyst
+```
+
+The agent automatically:
+- Detects column names, types, and sample values
+- Identifies common columns for joins across multiple CSVs
+- Generates appropriate pandas code based on actual schema
+
+No configuration needed - just drop your CSVs and start asking questions.
+
+---
+
 ## How I Approached the Problem
 
 ### 1. Understanding the Core Challenge
@@ -70,7 +95,7 @@ I chose to build a **lightweight custom orchestrator** instead of using heavy fr
 │ (pandas) │  (plt)   │ (CSV/XL) │  (reportlab/docx)            │
 ├──────────┴──────────┴──────────┴──────────────────────────────┤
 │              Code Executor (executor.py)                        │
-│          Sandboxed execution with output capture                │
+│          Namespace-isolated execution with output capture       │
 ├─────────────────────────────────────────────────────────────────┤
 │              Data Loader (data_loader.py)                       │
 │          CSV loading + automatic schema extraction              │
@@ -80,7 +105,9 @@ I chose to build a **lightweight custom orchestrator** instead of using heavy fr
 ### 4. The Agent Loop (orchestrator.py)
 
 ```python
-while not done:
+max_iterations = 10  # Safety limit to prevent infinite loops
+
+while iteration < max_iterations:
     # 1. Send query + context to LLM
     response = openai.chat.completions.create(
         messages=messages,
@@ -97,7 +124,7 @@ while not done:
         return response
 ```
 
-This simple loop handles complex multi-step analyses because the LLM can call tools multiple times, building on previous results.
+This loop handles complex multi-step analyses (LLM can call tools multiple times). The `max_iterations=10` prevents infinite loops if the LLM keeps requesting tools without concluding.
 
 ### 5. Transparency by Design
 
@@ -120,7 +147,7 @@ This builds user trust and makes debugging easy.
 | Chart generation | ✅ | matplotlib, saves to PNG |
 | CSV/Excel export | ✅ | openpyxl for Excel |
 | PDF/DOCX reports | ✅ | reportlab, python-docx |
-| Conversation history | ✅ | Last 10 exchanges by default |
+| Conversation history | ✅ | Last 50 message pairs in context |
 | Transparent steps | ✅ | Shows code, explanations, results |
 | Error recovery | ✅ | Retries on execution errors |
 
@@ -145,7 +172,7 @@ cellbyte-task/
 ├── src/
 │   ├── config.py           # Configuration (env vars)
 │   ├── data_loader.py      # CSV loading + schema extraction
-│   ├── executor.py         # Sandboxed Python execution
+│   ├── executor.py         # Code execution with namespace isolation
 │   ├── tools.py            # LLM tool definitions
 │   ├── orchestrator.py     # Custom agent loop (core)
 │   ├── report_generator.py # PDF/DOCX generation
@@ -170,7 +197,7 @@ cellbyte-task/
 3. **Transparency** over speed
 
 ### Current Limitations
-- **Sandboxing**: Uses `exec()` with namespace isolation, not subprocess. Sufficient for demo but not production-secure.
+- **Code execution**: Uses `exec()` with namespace isolation only. NOT truly sandboxed - generated code can still import modules and access system resources. Sufficient for demo with trusted LLM output, but NOT production-secure.
 - **No streaming**: Waits for full response before displaying
 - **Single-threaded**: Sequential tool execution
 

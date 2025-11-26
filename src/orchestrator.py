@@ -1,6 +1,6 @@
 """
 Custom orchestrator for the agentic data analyst.
-Uses OpenAI Responses API with tool calling.
+Uses OpenAI Chat Completions API with function calling.
 """
 import json
 from typing import Optional
@@ -147,7 +147,7 @@ class Orchestrator:
         self.history.append(Message(role="user", content=user_input))
 
         # Agent loop - keep going until we get a final response
-        max_iterations = 5  # Safety limit
+        max_iterations = 10  # Safety limit to prevent infinite loops
         iteration = 0
 
         while iteration < max_iterations:

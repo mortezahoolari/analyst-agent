@@ -1,6 +1,6 @@
 """Tool definitions for the LLM agent."""
 
-# OpenAI tool definitions for the Responses API
+# OpenAI tool definitions for Chat Completions API with function calling
 TOOLS = [
     {
         "type": "function",

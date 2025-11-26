@@ -1,4 +1,9 @@
-"""Sandboxed Python code execution for data analysis."""
+"""Python code execution with namespace isolation for data analysis.
+
+NOTE: This is NOT true sandboxing. Generated code can still import
+arbitrary modules and access system resources. For production use,
+implement subprocess isolation with resource limits.
+"""
 import sys
 import traceback
 from io import StringIO

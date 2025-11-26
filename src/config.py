@@ -22,7 +22,7 @@ class Config:
     MAX_OUTPUT_ROWS: int = 100  # for display
 
     # Chat history
-    HISTORY_LENGTH: int = 10  # last N messages to include
+    HISTORY_LENGTH: int = 50  # last N message pairs to include
 
     @classmethod
     def validate(cls) -> None:
