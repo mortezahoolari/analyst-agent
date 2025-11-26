@@ -60,9 +60,13 @@ def main():
     # Create orchestrator
     orchestrator = Orchestrator(data_loader)
 
-    # Test queries from the assignment
+    # Test ALL 5 queries from the assignment
     test_queries = [
+        "What are the average yearly therapy costs in Non-small cell lung cancer?",
+        "Which active substances were also part of the appropriate comparative therapies?",
         "Show me the range of yearly therapy costs by additional benefit rating.",
+        "Give me a distribution of additional benefit ratings as a pie chart.",
+        "Are there any products that received a higher benefit rating in a reassessment in the same disease area?",
     ]
 
     results = []

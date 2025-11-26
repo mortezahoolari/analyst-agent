@@ -11,6 +11,7 @@ from .config import Config
 from .data_loader import DataLoader
 from .executor import CodeExecutor, ExecutionResult
 from .tools import TOOLS, get_system_prompt
+from .report_generator import ReportGenerator
 
 
 @dataclass
@@ -55,6 +56,7 @@ class Orchestrator:
         self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
         self.data_loader = data_loader
         self.executor = CodeExecutor(data_loader.datasets)
+        self.report_generator = ReportGenerator(Config.OUTPUT_DIR)
         self.history: list[Message] = []
         self.model = Config.OPENAI_MODEL
 
@@ -85,6 +87,11 @@ class Orchestrator:
 
     def _execute_tool(self, tool_name: str, arguments: dict) -> tuple[ExecutionResult, str]:
         """Execute a tool and return the result."""
+        # Handle report generation separately
+        if tool_name == "generate_report":
+            return self._execute_report_tool(arguments)
+
+        # For code-based tools (analyze_data, create_chart, export_data)
         code = arguments.get("code", "")
         explanation = arguments.get("explanation", "")
 
@@ -100,6 +107,29 @@ class Orchestrator:
             output = f"Error executing code:\n{result.error}"
 
         return result, output
+
+    def _execute_report_tool(self, arguments: dict) -> tuple[ExecutionResult, str]:
+        """Execute the report generation tool."""
+        try:
+            title = arguments.get("title", "Report")
+            content = arguments.get("content", "")
+            format = arguments.get("format", "pdf")
+            filename = arguments.get("filename", "report")
+
+            filepath = self.report_generator.generate(title, content, format, filename)
+
+            return ExecutionResult(
+                success=True,
+                output=f"Report generated successfully: {filepath}",
+                generated_files=[filepath]
+            ), f"Report generated: {filepath}"
+
+        except Exception as e:
+            return ExecutionResult(
+                success=False,
+                output="",
+                error=str(e)
+            ), f"Error generating report: {e}"
 
     def process(self, user_input: str) -> AgentResponse:
         """

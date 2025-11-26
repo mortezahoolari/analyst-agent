@@ -72,6 +72,36 @@ TOOLS = [
                 "required": ["code", "explanation", "filename"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "generate_report",
+            "description": "Generate a formatted report document (PDF or DOCX) from analysis results. Use this when the user asks for a report, document, or wants results in PDF/Word format.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the report"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "Main content of the report in markdown format. Use headers (#, ##), bullet points (-), and tables."
+                    },
+                    "format": {
+                        "type": "string",
+                        "enum": ["pdf", "docx"],
+                        "description": "Output format: 'pdf' or 'docx'"
+                    },
+                    "filename": {
+                        "type": "string",
+                        "description": "Output filename without extension (e.g., 'analysis_report')"
+                    }
+                },
+                "required": ["title", "content", "format", "filename"]
+            }
+        }
     }
 ]
 
@@ -89,6 +119,7 @@ def get_system_prompt(schema_context: str, dataset_names: list[str]) -> str:
 1. **analyze_data**: Run pandas code to answer questions, compute statistics, filter/aggregate data
 2. **create_chart**: Generate visualizations using matplotlib (pie charts, bar charts, line plots, etc.)
 3. **export_data**: Save results to CSV or Excel files
+4. **generate_report**: Create formatted PDF or DOCX reports from analysis results
 
 ## Important Guidelines
 - ALWAYS use the tools to perform analysis - don't just describe what you would do

@@ -1,0 +1,11 @@
+services:
+  analyst:
+    build: .
+    stdin_open: true
+    tty: true
+    environment:
+      - OPEN_AI_API_KEY=${OPEN_AI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o}
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
