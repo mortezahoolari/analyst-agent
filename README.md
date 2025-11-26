@@ -180,7 +180,8 @@ analyst-agent/
 ├── data/                   # CSV files
 ├── output/                 # Generated files (charts, reports)
 ├── main.py                 # Entry point
-├── test_queries.py         # Test all 5 example queries
+├── test_queries.py         # E2E tests for 5 example queries
+├── test_all.py             # Integration tests (components + API)
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
@@ -213,9 +214,9 @@ analyst-agent/
 ## Security Considerations
 
 - API key loaded from environment (not hardcoded)
-- Code execution isolated in namespace (no file system access by default)
-- Output directory is fixed (can't write arbitrary paths)
-- No network access from generated code
+- Code execution uses namespace isolation (see Limitations section for caveats)
+- Output directory is fixed for generated files
+- LLM-generated code is relatively trusted (not arbitrary user input)
 
 For production, I'd add:
 - Subprocess isolation with resource limits
@@ -227,7 +228,10 @@ For production, I'd add:
 ## Running Tests
 
 ```bash
-# Run all 5 example queries
+# Run integration tests (components + LLM queries)
+python test_all.py
+
+# Run E2E tests for the 5 example queries
 python test_queries.py
 
 # Interactive mode

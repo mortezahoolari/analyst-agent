@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Test script to verify the agent works with example queries."""
 import sys
-import os
 from pathlib import Path
 
 # Fix Windows console encoding

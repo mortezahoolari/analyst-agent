@@ -112,7 +112,7 @@ class CodeExecutor:
                 generated_files=generated_files
             )
 
-        except Exception as e:
+        except Exception:
             error_msg = traceback.format_exc()
             return ExecutionResult(
                 success=False,

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Comprehensive test suite for the Agentic Data Analyst."""
 import sys
-import os
 from pathlib import Path
 
 # Fix Windows console encoding
@@ -157,7 +156,7 @@ def test_orchestrator_query():
         # Simple query
         response = orchestrator.process("What is the total number of rows in the germany sample dataset?")
 
-        print(f"  ✓ Query processed")
+        print("  ✓ Query processed")
         print(f"  ✓ Steps: {len(response.steps)}")
         print(f"  ✓ Answer length: {len(response.answer)} chars")
         print(f"  ✓ Generated files: {len(response.generated_files)}")
@@ -186,7 +185,7 @@ def test_report_via_orchestrator():
             "Generate a brief PDF report summarizing the number of products by additional benefit rating."
         )
 
-        print(f"  ✓ Query processed")
+        print("  ✓ Query processed")
         print(f"  ✓ Steps: {len(response.steps)}")
 
         # Check if any PDF was generated

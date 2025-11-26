@@ -1,16 +1,14 @@
 """Report generation for PDF and DOCX formats."""
 from pathlib import Path
 from datetime import datetime
-from typing import Optional
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 
 from docx import Document
-from docx.shared import Inches, Pt
+from docx.shared import Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 
@@ -116,7 +114,7 @@ class ReportGenerator:
             elif line.startswith('# '):
                 doc.add_heading(line[2:], level=1)
             elif line.startswith('- ') or line.startswith('* '):
-                para = doc.add_paragraph(line[2:], style='List Bullet')
+                doc.add_paragraph(line[2:], style='List Bullet')
             else:
                 doc.add_paragraph(line)
 

@@ -11,7 +11,6 @@ from rich.table import Table
 
 from .orchestrator import Orchestrator, AgentResponse, AgentStep
 from .data_loader import DataLoader
-from .config import Config
 
 
 class CLI:
