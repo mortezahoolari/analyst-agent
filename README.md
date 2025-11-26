@@ -1,4 +1,4 @@
-# Cellbyte Agentic Data Analyst
+# Agentic Data Analyst
 
 An AI-powered data analyst that answers natural language questions about tabular CSV data.
 
@@ -168,7 +168,7 @@ This builds user trust and makes debugging easy.
 ## Project Structure
 
 ```
-cellbyte-task/
+analyst-agent/
 ├── src/
 │   ├── config.py           # Configuration (env vars)
 │   ├── data_loader.py      # CSV loading + schema extraction
