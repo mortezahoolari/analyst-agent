@@ -239,14 +239,14 @@ python main.py data/
 ## Dependencies
 
 Core:
-- `openai>=1.30.0` - LLM API
-- `pandas>=2.0.0` - Data analysis
-- `matplotlib>=3.7.0` - Charts
+- `openai>=2.8.0` - LLM API (Chat Completions with function calling)
+- `pandas>=2.3.0` - Data analysis
+- `matplotlib>=3.10.0` - Charts
 
 Export:
-- `openpyxl>=3.1.0` - Excel
-- `reportlab>=4.0.0` - PDF
-- `python-docx>=1.0.0` - Word
+- `openpyxl>=3.1.5` - Excel
+- `reportlab>=4.4.0` - PDF
+- `python-docx>=1.2.0` - Word
 
 UI:
-- `rich>=13.0.0` - Terminal formatting
+- `rich>=14.0.0` - Terminal formatting
